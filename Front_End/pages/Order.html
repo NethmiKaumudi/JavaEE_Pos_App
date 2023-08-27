@@ -12,6 +12,7 @@
     </style>
     <link rel="stylesheet" href="../assest/lib/css/bootstrap.css">
     <link rel="stylesheet" href="../assest/lib/css/bootstrap.min.css">
+
 </head>
 <body>
 <nav class="navbar fixed-top bg-body-tertiary" style="padding: 0">
@@ -91,8 +92,9 @@
                                         <div class="form-group">
                                             <label>Order ID :</label>
                                             <input class="form-control" id="txtOrderID" type="text">
-                                            <span class="control-error"
-                                                  id="orderId-invalid-error"></span>
+                                            <span class="control-error" id="orderId-invalid-error"></span>
+                                            <p id="orderIdAlert" class="m-0"
+                                               style="font-size: 10px; color: red"></p>
                                         </div>
                                     </div>
 
@@ -213,14 +215,17 @@
 
                                         <label>Cash(RS:)</label>
                                         <input class="form-control" id="Cash" type="text">
-                                        <span class="control-error"
-                                              id="cash-empty-error"></span>
+                                        <span class="control-error" id="cash-empty-error"></span>
+                                        <p id="cashAlert" class="m-0"
+                                           style="font-size: 10px; color: red"></p>
                                     </div>
                                 </div>
                                 <div class="col-6 ">
                                     <div class="form-group">
                                         <label>Discount</label>
                                         <input class="form-control" id="Discount" type="number" placeholder="0">
+                                        <p id="discountAlert" class="m-0"
+                                           style="font-size: 10px; color: red"></p>
                                     </div>
                                 </div>
 
@@ -228,6 +233,8 @@
                                     <div class="form-group">
                                         <label>Balance</label>
                                         <input class="form-control" id="Balance" type="text">
+                                        <p id="balanceAlert" class="m-0"
+                                           style="font-size: 10px; color: red"></p>
                                     </div>
                                 </div>
                             </div>
@@ -295,6 +302,8 @@
 
 </main>
 <script src="../assest/lib/js/bootstrap.js"></script>
+<script src="../controller/PurchaseOrderController.js"></script>
+<script src="../controller/validations/PurchaseOrderValidation.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
         crossorigin="anonymous"></script>

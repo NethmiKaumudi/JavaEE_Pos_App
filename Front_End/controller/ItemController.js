@@ -12,7 +12,7 @@ function getAllItems() {
             for (let i in items) {
                 let item = items[i];
                 let code = item.code;
-                let desc = item.desc;
+                let desc = item.description;
                 let unitPrice = item.unitPrice;
                 let qty = item.qty;
                 let row = `<tr><td>${code}</td><td>${desc}</td><td>${unitPrice}</td><td>${qty}</td></tr>`;

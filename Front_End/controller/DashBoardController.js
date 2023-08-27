@@ -89,8 +89,5 @@ document.getElementById("orders").addEventListener("click", function () {
     document.getElementById("customerContent").style.display = 'none';
     document.getElementById("itemContent").style.display = 'none';
     document.getElementById("orderContent").style.display = 'block';
-    setDate();
-    setOrderId();
-    loadCustomerIds();
-    loadItemCodes();
+
 })
