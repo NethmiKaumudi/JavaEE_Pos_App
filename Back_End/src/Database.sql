@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS orders
 
 CREATE TABLE IF NOT EXISTS order_detail
 (
-    code      VARCHAR(10),
     order_ID  VARCHAR(10),
+    code      VARCHAR(10),
     qty       INTEGER,
     unitPrice DECIMAL(8, 2),
     CONSTRAINT PRIMARY KEY (code, order_ID),

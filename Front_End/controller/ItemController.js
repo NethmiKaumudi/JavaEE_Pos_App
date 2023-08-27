@@ -6,7 +6,7 @@ function getAllItems() {
     $("#tblItem").empty();
     <!--send ajax request to the item servlet using jQuery-->
     $.ajax({
-        url: 'http://localhost:8080/Front_End/pages/item',
+        url: 'http://localhost:8080/back_end/pages/item',
         dataType: "json",
         success: function (items) {
             for (let i in items) {
@@ -50,7 +50,7 @@ function bindTrEventsItem() {
 $("#btnAddItem").click(function () {
     let formData = $("#itemForm").serialize();
     $.ajax({
-        url: 'http://localhost:8080/Front_End/pages/item',
+        url: 'http://localhost:8080/back_end/pages/item',
         method: "post",
         data: formData,
         success: function (res) {
@@ -85,7 +85,7 @@ $("#btnUpdateItem").click(function () {
 
 
     $.ajax({
-        url: 'http://localhost:8080/Front_End/pages/item',
+        url: 'http://localhost:8080/back_end/pages/item',
         method: 'put',
         origin: "*",
         // header: "Access-Control-Allow-Origin",
@@ -110,7 +110,7 @@ $("#btnDeleteItem").click(function () {
     let code = $('#txtItemCode').val();
 
     $.ajax({
-        url: 'http://localhost:8080/Front_End/pages/item' + code,
+        url: 'http://localhost:8080/back_end/pages/item' + code,
         type: "DELETE",
         dataType: "json",
         contentType: "application/json",
@@ -146,7 +146,7 @@ function searchItem() {
 $('#itemSearchbtn').click(function () {
     console.log("working")
     $.ajax({
-        url: 'http://localhost:8080/Front_End/pages/item',
+        url: 'http://localhost:8080/back_end/pages/item',
         dataType: "json",
         success: function (res) {
             console.log(res.message);

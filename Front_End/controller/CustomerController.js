@@ -8,7 +8,7 @@ function getAllCustomers() {
     $("#tblCustomer").empty();
     <!--send ajax request to the customer servlet using jQuery-->
     $.ajax({
-        url: 'http://localhost:8080/Front_End/pages/customer',
+        url: 'http://localhost:8080/back_end/pages/customer',
         dataType: "json",
         success: function (customers) {
             for (let i in customers) {
@@ -87,7 +87,7 @@ $("#btnUpdateCustomer").click(function () {
 
 
     $.ajax({
-        url: 'http://localhost:8080/Front_End/pages/customer',
+        url: 'http://localhost:8080/back_end/pages/customer',
         method: 'put',
         origin: "*",
         // header: "Access-Control-Allow-Origin",
@@ -112,7 +112,7 @@ $("#btnDeleteCustomer").click(function () {
     let cusID = $('#Cus_Id').val();
 
     $.ajax({
-        url: 'http://localhost:8080/Front_End/pages/customer?cusID=' + cusID,
+        url: 'http://localhost:8080/back_end/pages/customer?cusID=' + cusID,
         type: "DELETE",
         dataType: "json",
         contentType: "application/json",
@@ -150,7 +150,7 @@ function searchCustomers() {
 $('#customerSearchbtn').click(function () {
     console.log("working")
     $.ajax({
-        url: 'http://localhost:8080/Front_End/pages/customer',
+        url: 'http://localhost:8080/back_end/pages/customer',
         dataType: "json",
         success: function (res) {
             searchCustomers();

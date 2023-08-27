@@ -20,7 +20,7 @@ function setOrderId(orderCount) {
 
 function getOrderCount() {
     $.ajax({
-        url: "http://localhost:8080/Front_End/pages/order?option=orderCount",
+        url: "http://localhost:8080/back_end/pages/order?option=orderCount",
         method: "get",
         success: function (resp) {
             setOrderId(Number(resp.ordersCount));
@@ -35,7 +35,7 @@ function loadCusIds() {
     var optionCus = '';
 
     $.ajax({
-        url: 'http://localhost:8080/Front_End/pages/customer',
+        url: 'http://localhost:8080/back_end/pages/customer',
         dataType: "json",
         success: function (customers) {
             for (let c in customers) {
@@ -57,7 +57,7 @@ function loadCusIds() {
 $('#selectCustomerId').change(function () { //the event here is change
     let thisVal = $(this).val();
     $.ajax({
-        url: 'http://localhost:8080/Front_End/pages/customer',
+        url: 'http://localhost:8080/back_end/pages/customer',
         dataType: "json",
         success: function (customers) {
             for (let c in customers) {
@@ -87,7 +87,7 @@ function loaditemIds() {
     var optionItem = '';
 
     $.ajax({
-        url: 'http://localhost:8080/Front_End/pages/item',
+        url: 'http://localhost:8080/back_end/pages/item',
         dataType: "json",
         success: function (items) {
             for (let i in items) {
@@ -109,7 +109,7 @@ function loaditemIds() {
 $('#selectItemCode').change(function () { //the event here is change
     let thisVal = $(this).val();
     $.ajax({
-        url: 'http://localhost:8080/Front_End/pages/item',
+        url: 'http://localhost:8080/back_end/pages/item',
         dataType: "json",
         success: function (items) {
             for (let i in items) {
@@ -351,7 +351,7 @@ $("#place-order").click(function () {
     let orderID = $("#orderId").val();
 
     $.ajax({
-        url: "http://localhost:8080/pos_app/pages/order?option=orders",
+        url: "http://localhost:8080/back_end/pages/order?option=orders",
         method: "get",
         success: function (resp) {
             orders = resp;
@@ -414,7 +414,7 @@ $("#place-order").click(function () {
 $("#btnPurchaseOrder").click(function () {
 
     $.ajax({
-        url: "http://localhost:8080/Front_End/pages/order?option=orders",
+        url: "http://localhost:8080/back_end/pages/order?option=orders",
         method: "get",
         success: function (resp) {
             orders = resp;
@@ -514,7 +514,7 @@ $("#txtOrderID").keydown(function (event) {
         console.log("ok");
 
         $.ajax({
-            url: "http://localhost:8080/Front_End/pages/order?option=orderDetails&orderID=" + orderID,
+            url: "http://localhost:8080/back_end/pages/order?option=orderDetails&orderID=" + orderID,
             method: "get",
             success: function (resp) {
 
