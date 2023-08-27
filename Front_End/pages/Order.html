@@ -65,14 +65,12 @@
     </div>
 </nav>
 <main>
-    <div class="container mt-2" style="margin-left:5vw">
+    <div class="container mt-2" style="margin-left:5vw; margin-top: 200px">
 
         <div class="jumbotron pt-4">
-            <h2 style="margin-top: 60px;margin-left: 20px;margin-bottom:0px">
+            <h2>
                 <img src="../assest/POS%20Images/Order.png" height="70px"
-                     style="border: 2px solid black; border-radius: 100%; margin-top: 11px"><img/>
-                Order Form</h2>
-
+                     style="border: 2px solid black; border-radius: 100%; margin-top: 11px"><img/>Order Form</h2>
             <div class="row">
                 <div class="col-lg-4">
                     <div class="card" style="background-color: #0f5132 ;margin-top: 35px">
@@ -104,7 +102,11 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label>Id</label>
-                                            <input class="form-control" id="Cus_Id">
+                                            <!--                                            <input class="form-control" id="txtCusId">-->
+                                            <select class="form-select text-black focus-ring-warning focus-ring"
+                                                    aria-label="Default select example" id="selectCustomerId">
+                                                <option selected>Select Id</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-6">
@@ -114,6 +116,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -145,25 +148,30 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label>Item Code :</label>
-                                            <input class="form-control" id="txtItemCode" type="text">
+                                            <!--                                            <input class="form-control" id="ItemCode" type="text">-->
+                                            <select class="form-select  text-black focus-ring-warning focus-ring"
+                                                    aria-label="Default select example" id="selectItemCode">
+                                                <option selected>Select Code</option>
+
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-5">
                                         <div class="form-group">
                                             <label>Description :</label>
-                                            <input class="form-control" id="txtItemDescription" type="text">
+                                            <input class="form-control" id="ItemDescription" type="text">
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label class="">Unit Price :</label>
-                                            <input class="form-control" id="txtItemPrice" type="text">
+                                            <input class="form-control" id="ItemPrice" type="text">
                                         </div>
                                     </div>
                                     <div class="col-5">
                                         <div class="form-group">
                                             <label class="">Quantity :</label>
-                                            <input class="form-control" id="txtQTYOnHand" type="text">
+                                            <input class="form-control" id="QTY" type="text">
                                         </div>
                                     </div>
 
@@ -177,7 +185,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group text-right mt-3">
-                                    <button class="btn btn-success col-12 col-sm-auto" id="btnAddToTable" type="button"
+                                    <button class="btn btn-success col-12 col-sm-auto" id="orderAdd"
+                                            type="button"
                                             style="width: 100px">
                                         Add
                                     </button>
@@ -193,29 +202,38 @@
                         </div>
                         <div class="card-body" style="background-color: #63C228">
                             <div class="row">
-                                <div class="col-6 mt-2">
-                                    <div class="form-group">
-
-                                        <label>Sub -Total</label>
-                                        <input class="form-control" id="SubTotal" type="text">
-                                        <span class="control-error"
-                                              id="cash-empty-error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-6 mt-2">
-                                    <div class="form-group">
-                                        <label>Discount</label>
-                                        <input class="form-control" id="Discount" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-8">
+                                <div class="col-6">
                                     <div class="form-group">
                                         <label>Total</label>
                                         <input class="form-control" id="Total" type="text">
                                     </div>
                                 </div>
-                                <div class="mt-4 ">
-                                    <button type="submit" class="btn btn-warning">Purchase
+                                <div class="col-6 ">
+                                    <div class="form-group">
+
+                                        <label>Cash(RS:)</label>
+                                        <input class="form-control" id="Cash" type="text">
+                                        <span class="control-error"
+                                              id="cash-empty-error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-6 ">
+                                    <div class="form-group">
+                                        <label>Discount</label>
+                                        <input class="form-control" id="Discount" type="number" placeholder="0">
+                                    </div>
+                                </div>
+
+                                <div class="col-6  ">
+                                    <div class="form-group">
+                                        <label>Balance</label>
+                                        <input class="form-control" id="Balance" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div>
+                                    <button type="submit" class="btn btn-warning" id="btnPurchaseOrder">Purchase
                                     </button>
                                 </div>
                             </div>
@@ -232,34 +250,31 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Order Id</th>
-                                <th> Nic</th>
+                                <th> Cus_Id</th>
                                 <th> Item-Code</th>
                                 <th>Unit Price</th>
                                 <th> order Qty</th>
-                                <th> sub Total</th>
-                                <th> Discount</th>
-                                <th> Total</th>
                                 <th> Edit</th>
 
                             </tr>
                             </thead>
-                            <tbody class="table-light">
+                            <tbody class="table-light" id="tblOrder">
                             <tr>
                                 <!--            <th scope="row">1</th>-->
-                                <td>2023-05-17</td>
-                                <td>O-001</td>
-                                <td>975632124v</td>
-                                <td>I-001</td>
-                                <td>150.00</td>
-                                <td>3</td>
-                                <td>450.00</td>
-                                <td>25.00</td>
-                                <td>425.00</td>
+                                <!--                                <td>2023-05-17</td>-->
+                                <!--                                <td>O-001</td>-->
+                                <!--                                <td>975632124v</td>-->
+                                <!--                                <td>I-001</td>-->
+                                <!--                                <td>150.00</td>-->
+                                <!--                                <td>3</td>-->
+                                <!--                                <td>450.00</td>-->
+                                <!--                                <td>25.00</td>-->
+                                <!--                                <td>425.00</td>-->
 
 
-                                <td>
-                                    <Buton class="btn btn-danger">Delete</Buton>
-                                </td>
+                                <!--                                <td>-->
+                                <!--                                    <Buton class="btn btn-danger">Delete</Buton>-->
+                                <!--                                </td>-->
 
 
                             </tr>
@@ -268,9 +283,14 @@
                         </table>
                     </div>
                 </div>
-
+                <!--                    <div class="mt-4 ">-->
+                <!--                        <button type="submit" class="btn btn-warning" style="width: 200px; margin-left:70vw">Purchase-->
+                <!--                        </button>-->
+                <!--                    </div>-->
 
             </div>
+        </div>
+    </div>
 
 
 </main>

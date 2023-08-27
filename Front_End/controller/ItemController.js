@@ -3,10 +3,10 @@ $('#btnGetAllItem').click(function () {
 })
 
 function getAllItems() {
-    $("#tblItems").empty();
+    $("#tblItem").empty();
     <!--send ajax request to the item servlet using jQuery-->
     $.ajax({
-        url: 'http://localhost:8080/JavaEE_Pos/item',
+        url: 'http://localhost:8080/Front_End/pages/item',
         dataType: "json",
         success: function (items) {
             for (let i in items) {
@@ -16,7 +16,7 @@ function getAllItems() {
                 let unitPrice = item.unitPrice;
                 let qty = item.qty;
                 let row = `<tr><td>${code}</td><td>${desc}</td><td>${unitPrice}</td><td>${qty}</td></tr>`;
-                $("#tblItems").append(row);
+                $("#tblItem").append(row);
                 bindTrEventsItem();
             }
         },
@@ -30,7 +30,7 @@ function getAllItems() {
 
 //bind event item table
 function bindTrEventsItem() {
-    $('#tblItems>tr').click(function () {
+    $('#tblItem>tr').click(function () {
         //get the selected rows data
         let code = $(this).children().eq(0).text();
         let desc = $(this).children().eq(1).text();
@@ -38,19 +38,19 @@ function bindTrEventsItem() {
         let qty = $(this).children().eq(3).text();
 
         //set the selected rows data to the input fields
-        $("#InputItemID").val(code);
-        $("#InputItemDesc").val(desc);
-        $("#inputItemUnitPrice").val(unitPrice);
-        $("#inputItemQty").val(qty);
+        $("#txtItemCode").val(code);
+        $("#txtItemDescription").val(desc);
+        $("#txtItemPrice").val(unitPrice);
+        $("#txtQTYOnHand").val(qty);
     })
 }
 
 //customer save
 
-$("#btnSaveItem").click(function () {
+$("#btnAddItem").click(function () {
     let formData = $("#itemForm").serialize();
     $.ajax({
-        url: 'http://localhost:8080/JavaEE_Pos/item',
+        url: 'http://localhost:8080/Front_End/pages/item',
         method: "post",
         data: formData,
         success: function (res) {
@@ -70,13 +70,13 @@ $("#btnSaveItem").click(function () {
 
 $("#btnUpdateItem").click(function () {
 
-    let code = $("#InputItemID").val();
-    let desc = $("#InputItemDesc").val();
-    let unitPrice = $("#inputItemUnitPrice").val();
-    let qty = $("#inputItemQty").val();
+    let code = $("#txtItemCode").val();
+    let desc = $("#txtItemDescription").val();
+    let unitPrice = $("#txtItemPrice").val();
+    let qty = $("#txtQTYOnHand").val();
 
     //json object
-    let a = {
+    let item = {
         "code": code,
         "desc": desc,
         "unitPrice": unitPrice,
@@ -85,13 +85,13 @@ $("#btnUpdateItem").click(function () {
 
 
     $.ajax({
-        url: 'http://localhost:8080/JavaEE_Pos/item',
+        url: 'http://localhost:8080/Front_End/pages/item',
         method: 'put',
         origin: "*",
         // header: "Access-Control-Allow-Origin",
         setRequestHeader: "Access-Control-Allow-Origin",
         contentType: "application/json",
-        data: JSON.stringify(a),
+        data: JSON.stringify(item),
         success: function (resp) {
             getAllItems();
             alert(resp.message);
@@ -103,14 +103,14 @@ $("#btnUpdateItem").click(function () {
 });
 
 
-//customer delete
+//item delete
 
 $("#btnDeleteItem").click(function () {
     console.log("clicked");
-    let code = $('#InputItemID').val();
+    let code = $('#txtItemCode').val();
 
     $.ajax({
-        url: 'http://localhost:8080/JavaEE_Pos/item?code=' + code,
+        url: 'http://localhost:8080/Front_End/pages/item' + code,
         type: "DELETE",
         dataType: "json",
         contentType: "application/json",
@@ -123,4 +123,43 @@ $("#btnDeleteItem").click(function () {
             alert(error.message)
         }
     })
+});
+
+//Search
+function searchItem() {
+    var searchValue = $('#searchItemField').val();
+
+    $('#tableItem tbody tr').each(function () {
+        var code = $(this).find('td:first').text();
+
+        console.log(searchValue)
+        console.log(code)
+        console.log(code.includes(searchValue))
+        if (code.includes(searchValue)) {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
+}
+
+$('#itemSearchbtn').click(function () {
+    console.log("working")
+    $.ajax({
+        url: 'http://localhost:8080/Front_End/pages/item',
+        dataType: "json",
+        success: function (res) {
+            console.log(res.message);
+            searchItem();
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+});
+
+
+$("#itemSearchClearBtn").click(function () {
+    $("#searchItemField").val("");
+    getAllItems();
 });
