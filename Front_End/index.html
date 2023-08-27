@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment 01 Frame works</title>
+    <meta content="width=device-width initial-scale=1" name="viewport">
+    <link rel="icon" href="assest/POS%20Images/nk%20logo%20green.png">
+    <link rel="stylesheet" href="assest/lib/css/bootstrap.css">
+    <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" rel="stylesheet">
+    <style>
+        ul > li {
+            cursor: pointer;
+        }
+    </style>
+    <link rel="stylesheet" href="assest/lib/css/bootstrap.min.css">
+
+</head>
+<body>
+<header>
+    <nav class="navbar fixed-top bg-body-tertiary" style="padding: 0">
+        <div class="container-fluid" style="background-color:#0f5132">
+
+            <a class="navbar-brand" href="#">
+                <img src="assest/POS%20Images/nk%20logo%20green.png" alt="" width="50px" height="50px"
+                     style="border-radius: 100%">
+                Pos System</a>
+            <nav class="navbar navbar-expand-lg navbar-toggler ">
+                <div class="container-fluid" style="background-color: #0f5132;margin-right: 30px">
+                    <!--                <a class="navbar-brand" href="#" ></a>-->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item" id="lnkHome">
+                                <a class="nav-link active" aria-current="page" href="404page.html">Home</a>
+                            </li>
+                            <li class="nav-item" id="lnkCustomer">
+                                <a class="nav-link active" href="pages/Customer.html">Customers</a>
+                            </li>
+                            <li class="nav-item" id="lnkItem">
+                                <a class="nav-link" href="pages/Item.html">Items</a>
+                            </li>
+                            <li class="nav-item" id="lnkOrder">
+                                <a class="nav-link" href="pages/Order.html">Orders</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    <img src="assest/POS%20Images/Account.png" alt=""> </a>
+                                <ul class="dropdown-menu" style="background-color: #63C228;width: 35px">
+                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">log out</a></li>
+                                </ul>
+                            </li>
+
+
+                        </ul>
+
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </nav>
+
+
+</header>
+
+
+<!--dashboard content-->
+<main class="container-fluid " id="dashboardContent">
+    <div class="jumbotron pt-md-5">
+        <div id="home-tiles">
+            <div class="row ">
+                <div class="col-lg-6 col-xl-4 mb-2">
+                    <div class="card" style="background-color:lightseagreen;margin-top: 40px">
+                        <div class="card-header font-weight-bolder" style="background-color:#0f5132;">Customers</div>
+                        <div class="card-body">
+                            <div class="dash-tile-icon"><i class="fas fa-users"></i></div>
+                            <div class="dash-tile-text text-right text-black-50"><h2>100</h2></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xl-4 mb-2">
+                    <div class="card" style="background-color:lightseagreen;margin-top: 40px">
+                        <div class="card-header  font-weight-bolder" style="background-color:#0f5132;">Items</div>
+                        <div class="card-body">
+                            <div class="dash-tile-icon"><i class="fas fa-cubes"></i></div>
+                            <div class="dash-tile-text text-right text-black-50"><h2>120</h2></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xl-4 mb-2">
+                    <div class="card" style="background-color:lightseagreen;margin-top: 40px">
+                        <div class="card-header  font-weight-bolder" style="background-color:#0f5132;">My Orders</div>
+                        <div class="card-body">
+                            <div class="dash-tile-icon"><i class="fas fa-shopping-cart"></i></div>
+                            <div class="dash-tile-text text-right text-black-50"><h2>1100</h2></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+<script src="assest/lib/js/bootstrap.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+        integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
+        integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
+        crossorigin="anonymous"></script>
+
+
+</body>
+</html>
