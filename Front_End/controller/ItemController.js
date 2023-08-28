@@ -11,7 +11,7 @@ function getAllItems() {
         dataType: "json",
         success: function (items) {
 
-            let x=JSON.parse(items.data)[0];
+            let x = JSON.parse(items.data)[0];
             console.log(x);
 
             for (let i in x) {
@@ -115,21 +115,23 @@ $("#btnUpdateItem").click(function () {
 $("#btnDeleteItem").click(function () {
     console.log("clicked");
     let code = $('#txtItemCode').val();
-
-    $.ajax({
-        url: 'http://localhost:8080/back_end/pages/item' + code,
-        type: "DELETE",
-        dataType: "json",
-        contentType: "application/json",
-        // data:JSON.stringify(cusID),
-        success: function (res) {
-            getAllItems();
-            alert(res.message);
-        },
-        error: function (error) {
-            alert(error.message)
-        }
-    })
+    let consent = confirm("Do you want to delete.?");
+    if (consent) {
+        $.ajax({
+            url: 'http://localhost:8080/back_end/pages/item?code=' + code,
+            type: "DELETE",
+            dataType: "json",
+            contentType: "application/json",
+            // data:JSON.stringify(cusID),
+            success: function (res) {
+                getAllItems();
+                alert(res.message);
+            },
+            error: function (error) {
+                alert(error.message)
+            }
+        })
+    }
 });
 
 //Search
@@ -160,6 +162,7 @@ $("#btnClearAllItem").click(function () {
     $("#txtItemCode,#txtItemDescription,#txtItemPrice,#txtQTYOnHand").val("");
 
 })
+
 function searchItem(code) {
     return items.find(function (item) {
         return item.code === code;

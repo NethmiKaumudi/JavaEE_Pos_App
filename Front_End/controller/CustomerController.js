@@ -122,7 +122,7 @@ $("#btnDeleteCustomer").click(function () {
     let consent = confirm("Do you want to delete.?");
     if (consent) {
         $.ajax({
-            url: 'http://localhost:8080/back_end/pages/customer?cusID=' + cusID,
+            url: 'http://localhost:8080/back_end/pages/customer?id=' + cusID,
             method: "DELETE",
             dataType: "json",
             contentType: "application/json",
