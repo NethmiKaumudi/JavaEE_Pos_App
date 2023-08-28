@@ -126,7 +126,8 @@ $("#btnDeleteItem").click(function () {
 });
 
 //Search
-function searchItem() {
+$('#itemSearchbtn').click(function () {
+    console.log("working")
     var searchValue = $('#searchItemField').val();
 
     $('#tableItem tbody tr').each(function () {
@@ -139,21 +140,6 @@ function searchItem() {
             $(this).show();
         } else {
             $(this).hide();
-        }
-    });
-}
-
-$('#itemSearchbtn').click(function () {
-    console.log("working")
-    $.ajax({
-        url: 'http://localhost:8080/back_end/pages/item',
-        dataType: "json",
-        success: function (res) {
-            console.log(res.message);
-            searchItem();
-        },
-        error: function (error) {
-            console.log(error);
         }
     });
 });

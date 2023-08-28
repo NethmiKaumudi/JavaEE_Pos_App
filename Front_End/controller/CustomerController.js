@@ -8,7 +8,7 @@ function getAllCustomers() {
     $("#tblCustomer").empty();
     <!--send ajax request to the customer servlet using jQuery-->
     $.ajax({
-        url: 'http://localhost:8080/back_end/pages/customer',
+        url: 'http://localhost:8080/JavaEE_Pos_App/Front_End/pages/customer',
         dataType: "json",
         success: function (customers) {
             for (let i in customers) {
@@ -23,7 +23,9 @@ function getAllCustomers() {
             }
         },
         error: function (error) {
-            console.log(error);
+            console.log(error.message);
+            alert(error.message);
+
         }
     });
 
@@ -52,7 +54,7 @@ function bindTrEvents() {
 $("#btnAddToCustomerTable").click(function () {
     let formData = $("#customerForm").serialize();
     $.ajax({
-        url: 'http://localhost:8080/Front_End/pages/customer',
+        url: 'http://localhost:8080/JavaEE_Pos_App/Front_End/pages/customer',
         method: "post",
         data: formData,
         success: function (res) {
@@ -61,8 +63,8 @@ $("#btnAddToCustomerTable").click(function () {
             getAllCustomers();
         },
         error: function (error) {
-            console.log(error.responseJSON);
-            alert(error.responseJSON.message);
+            // console.log(error.responseJSON);
+            alert(error.message);
         }
     });
 
@@ -87,7 +89,7 @@ $("#btnUpdateCustomer").click(function () {
 
 
     $.ajax({
-        url: 'http://localhost:8080/back_end/pages/customer',
+        url: 'http://localhost:8080/JavaEE_Pos_App/Front_End/pages/customer',
         method: 'put',
         origin: "*",
         // header: "Access-Control-Allow-Origin",
@@ -99,7 +101,7 @@ $("#btnUpdateCustomer").click(function () {
             alert(resp.message);
         },
         error: function (error) {
-            alert(error.responseJSON.message);
+            alert(error.message);
         }
     });
 });
@@ -112,7 +114,7 @@ $("#btnDeleteCustomer").click(function () {
     let cusID = $('#Cus_Id').val();
 
     $.ajax({
-        url: 'http://localhost:8080/back_end/pages/customer?cusID=' + cusID,
+        url: 'http://localhost:8080/JavaEE_Pos_App/Front_End/pages/customer?cusID=' + cusID,
         type: "DELETE",
         dataType: "json",
         contentType: "application/json",
@@ -122,13 +124,14 @@ $("#btnDeleteCustomer").click(function () {
             alert(res.message);
         },
         error: function (error) {
-            alert(error.responseJSON.message)
+            alert(error.message)
         }
     })
 });
 
 //Search customer from input field
-function searchCustomers() {
+$('#customerSearchbtn').click(function () {
+    console.log("working")
     var searchValue = $('#searchCustomerField').val();
 
     $('#div_03 tbody tr').each(function () {
@@ -143,28 +146,14 @@ function searchCustomers() {
             $(this).hide();
         }
     });
-
-
-}
-
-$('#customerSearchbtn').click(function () {
-    console.log("working")
-    $.ajax({
-        url: 'http://localhost:8080/back_end/pages/customer',
-        dataType: "json",
-        success: function (res) {
-            searchCustomers();
-            console.log(res.message);
-        },
-        error: function (error) {
-            console.log(error);
-        }
-    });
 });
+
 
 $("#customerSearchClearBtn").click(function () {
     $("#searchCustomerField").val("");
     getAllCustomers();
 });
+
+
 
 
