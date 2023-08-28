@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS customer
     cId     VARCHAR(10),
     name    VARCHAR(30),
     address VARCHAR(100),
-    salary  INTEGER,
+    salary  VARCHAR(25),
     CONSTRAINT PRIMARY KEY (cId)
 );
 
@@ -48,3 +48,4 @@ CREATE TABLE IF NOT EXISTS order_detail
 
 
 
+INSERT INTO customer VALUES ('Ç001','Kamal','Matara','5000.00');

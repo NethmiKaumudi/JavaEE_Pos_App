@@ -61,10 +61,12 @@ public class CustomerServletAPI extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.addHeader("Access-Control-Allow-Origin", "*");
         resp.addHeader("Content-Type", "application/json");
+
         String id = req.getParameter("id");
         String name = req.getParameter("name");
         String address = req.getParameter("address");
-        String salary = req.getParameter("salary");
+        String salary =req.getParameter("salary");
+
         System.out.println(id + name + address + salary);
         JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
         try {
@@ -104,6 +106,7 @@ public class CustomerServletAPI extends HttpServlet {
 
         JsonReader reader = Json.createReader(req.getReader());
         JsonObject jsonObject = reader.readObject();
+
         String id = jsonObject.getString("id");
         String name = jsonObject.getString("name");
         String address = jsonObject.getString("address");

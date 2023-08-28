@@ -188,7 +188,7 @@ public class PurchaseOrderServletAPI extends HttpServlet {
 
         String orderId = jsonObject.getString("orderId");
         String date = jsonObject.getString("date");
-        String nic = jsonObject.getString("nic");
+        String id = jsonObject.getString("id");
         double total = Double.parseDouble(jsonObject.getString("total"));
         double cash = Double.parseDouble(jsonObject.getString("cash"));
         double discount = Double.parseDouble(jsonObject.getString("discount"));
@@ -200,7 +200,7 @@ public class PurchaseOrderServletAPI extends HttpServlet {
                 PreparedStatement orderStatement = connection.prepareStatement("INSERT INTO orders VALUES (?,?,?,?,?,?,?)");
                 orderStatement.setObject(1, orderId);
                 orderStatement.setObject(2, date);
-                orderStatement.setObject(3, nic);
+                orderStatement.setObject(3, id);
                 orderStatement.setObject(4, total);
                 orderStatement.setObject(5, cash);
                 orderStatement.setObject(6, balance);

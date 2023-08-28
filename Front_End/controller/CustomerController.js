@@ -1,6 +1,6 @@
 // get all customers
-
-$('#btnGetAllCus').click(function () {
+getAllCustomers();
+$('#btnGetCustomer').click(function () {
     getAllCustomers();
 })
 
@@ -8,15 +8,20 @@ function getAllCustomers() {
     $("#tblCustomer").empty();
     <!--send ajax request to the customer servlet using jQuery-->
     $.ajax({
-        url: 'http://localhost:8080/JavaEE_Pos_App/Front_End/pages/customer',
+        url: 'http://localhost:8080/back_end/pages/customer',
         dataType: "json",
         success: function (customers) {
-            for (let i in customers) {
-                let cus = customers[i];
+
+            let x=JSON.parse(customers.data)[0];
+
+            console.log(x);
+            for (let i in x) {
+                let cus = x[i];
                 let id = cus.id;
                 let name = cus.name;
                 let address = cus.address;
                 let salary = cus.salary;
+                // console.log(cus)
                 let row = `<tr><td>${id}</td><td>${name}</td><td>${address}</td><td>${salary}</td></tr>`;
                 $("#tblCustomer").append(row);
                 bindTrEvents();
@@ -54,7 +59,7 @@ function bindTrEvents() {
 $("#btnAddToCustomerTable").click(function () {
     let formData = $("#customerForm").serialize();
     $.ajax({
-        url: 'http://localhost:8080/JavaEE_Pos_App/Front_End/pages/customer',
+        url: 'http://localhost:8080/back_end/pages/customer',
         method: "post",
         data: formData,
         success: function (res) {
@@ -64,7 +69,7 @@ $("#btnAddToCustomerTable").click(function () {
         },
         error: function (error) {
             // console.log(error.responseJSON);
-            alert(error.message);
+            alert(error.responseJSON.message);
         }
     });
 
@@ -81,29 +86,31 @@ $("#btnUpdateCustomer").click(function () {
 
     //json object
     let a = {
-        "cusID": id,
-        "cusName": name,
-        "cusAddress": address,
-        "cusSalary": salary
+        "id": id,
+        "name": name,
+        "address": address,
+        "salary": salary
     }
 
-
-    $.ajax({
-        url: 'http://localhost:8080/JavaEE_Pos_App/Front_End/pages/customer',
-        method: 'put',
-        origin: "*",
-        // header: "Access-Control-Allow-Origin",
-        setRequestHeader: "Access-Control-Allow-Origin",
-        contentType: "application/json",
-        data: JSON.stringify(a),
-        success: function (resp) {
-            getAllCustomers();
-            alert(resp.message);
-        },
-        error: function (error) {
-            alert(error.message);
-        }
-    });
+    let consent = confirm("Do you want to Update.?");
+    if (consent) {
+        $.ajax({
+            url: 'http://localhost:8080/back_end/pages/customer',
+            method: 'put',
+            origin: "*",
+            // header: "Access-Control-Allow-Origin",
+            setRequestHeader: "Access-Control-Allow-Origin",
+            contentType: "application/json",
+            data: JSON.stringify(a),
+            success: function (resp) {
+                getAllCustomers();
+                alert(resp.message);
+            },
+            error: function (error) {
+                alert(error.responseJSON.message);
+            }
+        });
+    }
 });
 
 
@@ -112,21 +119,23 @@ $("#btnUpdateCustomer").click(function () {
 $("#btnDeleteCustomer").click(function () {
     console.log("clicked");
     let cusID = $('#Cus_Id').val();
-
-    $.ajax({
-        url: 'http://localhost:8080/JavaEE_Pos_App/Front_End/pages/customer?cusID=' + cusID,
-        type: "DELETE",
-        dataType: "json",
-        contentType: "application/json",
-        // data:JSON.stringify(cusID),
-        success: function (res) {
-            getAllCustomers()
-            alert(res.message);
-        },
-        error: function (error) {
-            alert(error.message)
-        }
-    })
+    let consent = confirm("Do you want to delete.?");
+    if (consent) {
+        $.ajax({
+            url: 'http://localhost:8080/back_end/pages/customer?cusID=' + cusID,
+            method: "DELETE",
+            dataType: "json",
+            contentType: "application/json",
+            // // data:JSON.stringify(cusID),
+            success: function (res) {
+                getAllCustomers()
+                alert(res.message);
+            },
+            error: function (error) {
+                alert(error.message);
+            }
+        })
+    }
 });
 
 //Search customer from input field
@@ -154,6 +163,13 @@ $("#customerSearchClearBtn").click(function () {
     getAllCustomers();
 });
 
+$("#btnClearCustomer").click(function () {
+    $("#Cus_Id,#Cus_Name,#Address,#Salary").val("");
 
+})
 
-
+function searchCustomer(id) {
+    return customers.find(function (customer) {
+        return customer.id === id;
+    });//return to matched customer object
+}//

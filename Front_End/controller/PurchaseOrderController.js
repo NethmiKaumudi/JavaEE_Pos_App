@@ -32,73 +32,119 @@ function getOrderCount() {
 //load customer ids
 
 function loadCusIds() {
-    var optionCus = '';
-
     $.ajax({
-        url: 'http://localhost:8080/back_end/pages/customer',
-        dataType: "json",
-        success: function (customers) {
-            for (let c in customers) {
-                let cus = customers[c];
-                let id = cus.id;
-                optionCus += '<option value="' + id + '">' + id + '</option>';
+        url: "http://localhost:8080/back_end/pages/customer",
+        method: "get",
+        success: function (resp) {
+            $("#selectCustomerId").empty();
+            $("#selectCustomerId").append(
+                `<option>Select Code</option>`
+            );
+
+            customers = JSON.parse(resp.data)[0];
+
+
+            for (let i in customers) {
+                let customer = customers[i];
+                let id = customer.id;
+                $("#selectCustomerId").append(
+                    `<option>${id}</option>`
+                );
             }
-            $('#selectCustomerId').append(optionCus);
         },
         error: function (error) {
-            console.log(error);
+
         }
     });
-
 }
 
 //set Customer details according to cus id
 
 $('#selectCustomerId').change(function () { //the event here is change
-    let thisVal = $(this).val();
-    $.ajax({
-        url: 'http://localhost:8080/back_end/pages/customer',
-        dataType: "json",
-        success: function (customers) {
-            for (let c in customers) {
-                let cus = customers[c];
-                let id = cus.id;
-                let name = cus.name;
-                let address = cus.address;
-                let salary = cus.salary;
-                if (thisVal == id) {
-                    $('#orderCustomerName').val(name)
-                    $('#orderCustomerAddress').val(address)
-                    $('#orderCustomerSalary').val(salary)
-                    break;
-                }
-            }
-        },
-        error: function (error) {
-            console.log(error);
-        }
-    });
+    // let thisVal = $(this).val();
+    // $.ajax({
+    //     url: 'http://localhost:8080/back_end/pages/customer',
+    //     dataType: "json",
+    //     success: function (customers) {
+    //         let x=JSON.parse(customers.data)[0];
+    //
+    //         console.log(x);
+    //         for (let c in customers) {
+    //             let cus = customers[c];
+    //             let id = cus.id;
+    //             let name = cus.name;
+    //             let address = cus.address;
+    //             let salary = cus.salary;
+    //             if (thisVal == id) {
+    //                 $('#orderCustomerName').val(name)
+    //                 $('#orderCustomerAddress').val(address)
+    //                 $('#orderCustomerSalary').val(salary)
+    //                 break;
+    //             }
+    //         }
+    //     },
+    //     error: function (error) {
+    //         console.log(error);
+    //     }
+    // });
+    let id = $("#selectCustomerId").val();
+    if (id !== "Select id") {
+        let customer = searchCustomer(id);
+        $("#orderCustomerName").val(customer.name);
+        $("#orderCustomerAddress").val(customer.address);
+        $("#orderCustomerSalary").val(customer.salary);
+
+    } else {
+        $("#orderCustomerName").val("");
+        $("#orderCustomerAddress").val("");
+        $("#orderCustomerSalary").val("");
+    }
 
 });
 
 //load item ids
 
 function loaditemIds() {
-    var optionItem = '';
-
+    // var optionItem = '';
+    //
+    // $.ajax({
+    //     url: 'http://localhost:8080/back_end/pages/item',
+    //     method:"GET",
+    //     dataType: "json",
+    //     success: function (items) {
+    //         for (let i in items) {
+    //             let item = items[i];
+    //             let code = item.code;
+    //             optionItem += '<option value="' + code + '">' + code + '</option>';
+    //         }
+    //         $('#selectItemCode').append(optionItem);
+    //     },
+    //     error: function (error) {
+    //         console.log(error);
+    //     }
+    // });
     $.ajax({
-        url: 'http://localhost:8080/back_end/pages/item',
-        dataType: "json",
-        success: function (items) {
+        url: "http://localhost:8080/back_end/pages/item",
+        method: "get",
+        success: function (resp) {
+            $("#selectItemCode").empty();
+            $("#selectItemCode").append(
+                `<option>Select Code</option>`
+            );
+
+            items = JSON.parse(resp.data)[0];
+
+
             for (let i in items) {
                 let item = items[i];
                 let code = item.code;
-                optionItem += '<option value="' + code + '">' + code + '</option>';
+                $("#selectItemCode").append(
+                    `<option>${code}</option>`
+                );
             }
-            $('#selectItemCode').append(optionItem);
         },
         error: function (error) {
-            console.log(error);
+
         }
     });
 
@@ -107,29 +153,18 @@ function loaditemIds() {
 //set item details according to item code
 
 $('#selectItemCode').change(function () { //the event here is change
-    let thisVal = $(this).val();
-    $.ajax({
-        url: 'http://localhost:8080/back_end/pages/item',
-        dataType: "json",
-        success: function (items) {
-            for (let i in items) {
-                let item = items[i];
-                let code = item.code;
-                let desc = item.description;
-                let unitPrice = item.unitPrice;
-                let qty = i.qty;
-                if (thisVal == id) {
-                    $('#ItemDescription').val(desc)
-                    $('#ItemPrice').val(unitPrice)
-                    $('#QTY').val(qty)
-                    break;
-                }
-            }
-        },
-        error: function (error) {
-            console.log(error);
-        }
-    });
+    let code = $("#selectItemCode").val();
+    if (code !== "Select code") {
+        let item = searchItem(code);
+        $("#ItemDescription").val(item.description);
+        $("#ItemPrice").val(item.unitPrice);
+        $("#QTY").val(item.qty);
+
+    } else {
+        $("#ItemDescription").val("");
+        $("#ItemPrice").val("");
+        $("#QTY").val("");
+    }
 
 });
 
@@ -187,6 +222,8 @@ $("#orderAdd").click(function () {
                 itemPrice: itemPrice,
                 itemQty: itemQty,
             });
+            cartItems.push(newOrder);
+
         }
         addToCart();
         updateItemQTY(code, itemQty);
@@ -239,7 +276,7 @@ function addToCart() {
                         <td>${cartItems[i].itemQty}</td>
 
                         <td>
-                          <button type="button" class="btn btn-danger border-0" style="background-color: #ff0014"><i class="fa-solid fa-trash-can"></i></button>
+                          <button type="button" class="btn btn-danger border-0" style="background-color: #ff0014"><i class="fa-solid fa-trash-can"></i>Delete</button>
                         </td>
                       </tr>`;
             tableBody.append(tr);
@@ -250,12 +287,12 @@ function addToCart() {
 }
 
 function updateItemQTY(code, itemQty) {
-    for (let i = 0; i < cartItems.length; i++) {
-        if (cartItems[i].code === code) {
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].code === code) {
             // console.log("Number(itemDB[i].qty)", Number(itemDB[i].qty))
             // console.log("Number(itemQty)", Number(itemQty));
-            cartItems[i].qty = Number(cartItems[i].qty) - Number(itemQty); // 100 - 10
-            console.log("itemDB[i].qty", cartItems[i].qty) // 90
+            items[i].qty = Number(items[i].qty) - Number(itemQty); // 100 - 10
+            console.log("items[i].qty", cartItems[i].qty) // 90
             // searchItem(code).qty = itemDB[i].qty;
 
         }
@@ -332,7 +369,7 @@ function getDeleteCartItem() {
 
 function deleteCartItem(oid, code, newQTY) {
     for (let i = 0; i < cartItems.length; i++) {
-        if (cartItems[i].orderId === oid && orderDB[i].code === code) {
+        if (cartItems[i].orderId === oid && cartItems[i].code === code) {
             let item = searchItem(code);
             item.qty = Number(item.qty) + Number(newQTY);
             cartItems.splice(i, 1);
@@ -342,75 +379,7 @@ function deleteCartItem(oid, code, newQTY) {
     return false;
 }
 
-$("#place-order").click(function () {
-    $("#orderIdAlert").text("");
-    $("#cashAlert").text("");
-    let total = $("#total").text();
-    let subTotal = $("#subTotal").text();
-    let cash = $("#cash").val();
-    let orderID = $("#orderId").val();
 
-    $.ajax({
-        url: "http://localhost:8080/back_end/pages/order?option=orders",
-        method: "get",
-        success: function (resp) {
-            orders = resp;
-            if (undefined === searchOrder(orderID)) {
-                console.log("hi")
-                if ($("#order-table>tr").length > 0 && $("#invoice-customerNIC").val() !== "Select NIC") {
-                    if (Number(cash) >= Number(total) && cash !== "") {
-                        let date = $("#orderDate").val();
-                        let nic = $("#invoice-customerNIC").val();
-                        let discount = $("#discount").val();
-                        console.log(discount)
-                        let balance = $("#balance").val();
-                        let newOrderDetails = {
-                            "orderId": orderID,
-                            "date": date,
-                            "nic": nic,
-                            "total": total,
-                            "subTotal": subTotal,
-                            "cash": cash,
-                            "discount": discount,
-                            "balance": balance,
-                            "cartItems": cartItems
-                        }
-                        console.log("hi")
-                        $.ajax({
-                            url: "http://localhost:8080/pos_app/pages/order",
-                            method: "post",
-                            contentType: "application/json",
-                            data: JSON.stringify(newOrderDetails),
-                            success: function (resp) {
-                                clearItemSection();
-                                clearInvoiceSection();
-
-                                $("#order-table").empty();
-                                getOrderCount();
-
-                                $("#total").text("0.0");
-                                $("#subTotal").text("0.0");
-                                $("#cash").val("");
-                                $("#discount").val(0);
-                                $("#balance").val("");
-
-                                cartItems = [];
-
-                                alert(resp.message);
-                            }
-                        });
-                    } else {
-                        $("#cashAlert").text("This amount is not enough");
-                    }
-                } else {
-                    $("#invoice-customerNIC").focus();
-                }
-            } else {
-                $("#orderIdAlert").text(`${orderID} already exits`);
-            }
-        }
-    });
-});
 $("#btnPurchaseOrder").click(function () {
 
     $.ajax({
@@ -442,7 +411,7 @@ $("#btnPurchaseOrder").click(function () {
                         }
                         console.log("hi")
                         $.ajax({
-                            url: "http://localhost:8080/Front-End/pages/order",
+                            url: "http://localhost:8080/back_end/pages/order",
                             method: "post",
                             contentType: "application/json",
                             data: JSON.stringify(newOrderDetails),

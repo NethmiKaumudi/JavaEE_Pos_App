@@ -1,6 +1,7 @@
 $('#btnGetAllItem').click(function () {
     getAllItems();
 })
+getAllItems();
 
 function getAllItems() {
     $("#tblItem").empty();
@@ -9,8 +10,12 @@ function getAllItems() {
         url: 'http://localhost:8080/back_end/pages/item',
         dataType: "json",
         success: function (items) {
-            for (let i in items) {
-                let item = items[i];
+
+            let x=JSON.parse(items.data)[0];
+            console.log(x);
+
+            for (let i in x) {
+                let item = x[i];
                 let code = item.code;
                 let desc = item.description;
                 let unitPrice = item.unitPrice;
@@ -78,28 +83,30 @@ $("#btnUpdateItem").click(function () {
     //json object
     let item = {
         "code": code,
-        "desc": desc,
+        "description": desc,
         "unitPrice": unitPrice,
         "qty": qty
     }
 
-
-    $.ajax({
-        url: 'http://localhost:8080/back_end/pages/item',
-        method: 'put',
-        origin: "*",
-        // header: "Access-Control-Allow-Origin",
-        setRequestHeader: "Access-Control-Allow-Origin",
-        contentType: "application/json",
-        data: JSON.stringify(item),
-        success: function (resp) {
-            getAllItems();
-            alert(resp.message);
-        },
-        error: function (error) {
-            alert(error.responseJSON.message);
-        }
-    });
+    let consent = confirm("Do you want to Update.?");
+    if (consent) {
+        $.ajax({
+            url: 'http://localhost:8080/back_end/pages/item',
+            method: 'put',
+            origin: "*",
+            // header: "Access-Control-Allow-Origin",
+            setRequestHeader: "Access-Control-Allow-Origin",
+            contentType: "application/json",
+            data: JSON.stringify(item),
+            success: function (resp) {
+                getAllItems();
+                alert(resp.message);
+            },
+            error: function (error) {
+                alert(error.responseJSON.message);
+            }
+        });
+    }
 });
 
 
@@ -149,3 +156,12 @@ $("#itemSearchClearBtn").click(function () {
     $("#searchItemField").val("");
     getAllItems();
 });
+$("#btnClearAllItem").click(function () {
+    $("#txtItemCode,#txtItemDescription,#txtItemPrice,#txtQTYOnHand").val("");
+
+})
+function searchItem(code) {
+    return items.find(function (item) {
+        return item.code === code;
+    });
+}
