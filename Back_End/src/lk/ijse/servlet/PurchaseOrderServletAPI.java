@@ -124,10 +124,10 @@ public class PurchaseOrderServletAPI extends HttpServlet {
 
                             orderDetailsArray.add(
                                     Json.createObjectBuilder()
-                                            .add("itemCode", code)
+                                            .add("code", code)
                                             .add("description", description)
                                             .add("unitPrice", price)
-                                            .add("qty_on_hand", qty)
+                                            .add("qty", qty)
                                             .build()
                             );
                         }
@@ -147,7 +147,7 @@ public class PurchaseOrderServletAPI extends HttpServlet {
 
                             array.add(
                                     Json.createObjectBuilder()
-                                            .add("cId", id)
+                                            .add("id", id)
                                             .add("name", cusName)
                                             .add("address", address)
                                             .add("salary", salary)
@@ -215,11 +215,12 @@ public class PurchaseOrderServletAPI extends HttpServlet {
                         JsonObject cartItem = cartItems.getJsonObject(i);
 
                         String itemCode = cartItem.getString("itemCode");
+                        String oId = cartItem.getString("orderId");
                         double itemPrice = Double.parseDouble(cartItem.getString("itemPrice"));
                         int itemQty = Integer.parseInt(cartItem.getString("itemQty"));
 
-                        orderDetailsStatement.setObject(1, orderId);
-                        orderDetailsStatement.setObject(2, itemCode);
+                        orderDetailsStatement.setObject(1, itemCode);
+                        orderDetailsStatement.setObject(2, oId);
                         orderDetailsStatement.setObject(3, itemQty);
                         orderDetailsStatement.setObject(4, itemPrice);
 

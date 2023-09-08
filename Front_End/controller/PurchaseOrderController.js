@@ -381,6 +381,9 @@ function deleteCartItem(oid, code, newQTY) {
 
 
 $("#btnPurchaseOrder").click(function () {
+    let total = $("#Total").text();
+    let cash = $("#Cash").val();
+    let orderID = $("#txtOrderID").val();
 
     $.ajax({
         url: "http://localhost:8080/back_end/pages/order?option=orders",
@@ -417,18 +420,16 @@ $("#btnPurchaseOrder").click(function () {
                             data: JSON.stringify(newOrderDetails),
                             success: function (resp) {
                                 clearItemSection();
-                                clearInvoiceSection();
+                                clearCustomerSection();
 
                                 $("#tblOrder").empty();
                                 getOrderCount();
-
                                 $("#Total").text("0.0");
                                 $("#Cash").val("");
                                 $("#Discount").val(0);
                                 $("#Balance").val("");
 
                                 cartItems = [];
-
                                 alert(resp.message);
                             }
                         });
@@ -443,33 +444,11 @@ $("#btnPurchaseOrder").click(function () {
             }
         }
     });
-    // console.log($("#tblOrder>tr").length > 0 && $("#selectCustomerId").val() !== "Select NIC");
-    // if ($("#tblOrder>tr").length > 0 && $("#selectItemCode").val() !== "Select NIC") {
-    //
-    //     orders.push({
-    //         date: date,
-    //         orderID: orderID,
-    //         id: id,
-    //         total: total,
-    //         cash: cash,
-    //         discount: discount,
-    //         balance: balance
-    //     });
-    //     clearItemSection();
-    //     clearInvoiceSection();
-    //     $("#tblOrder").empty();
-    //     setOrderId();
-    //     $("#Total").text("0.0");
-    //     $("#Cash").val("");
-    //     $("#Discount").val(0);
-    //     $("#Balance").val("");
-    // } else {
-    //     $("#selectCustomerId").focus();
-    // }
+
 });
 
-function clearInvoiceSection() {
-    $("#selectCustomerId").val("Select NIC");
+function clearCustomerSection() {
+    $("#selectCustomerId").val("Select id");
     $("#orderCustomerName").val("");
     $("#orderCustomerAddress").val("");
     $("#orderCustomerSalary").val("");
@@ -524,29 +503,7 @@ $("#txtOrderID").keydown(function (event) {
             }
         });
     }
-    // if (event.key === "Enter") {
-    //     let orderID = $("#txtOrderID").val();
-    //     let order = searchOrder(orderID);
-    //
-    //     if (order !== undefined) {
-    //         addToCart();
-    //         let customer = searchCustomer(order.id);
-    //         $("#selectCustomerId").val(order.id);
-    //         $("#orderCustomerName").val(customer.name);
-    //         $("#orderCustomerAddress").val(customer.address);
-    //         $("#orderCustomerSalary").val(customer.salary);
-    //
-    //         $("#txtDate").text(order.date);
-    //         $("#Total").text(order.total);
-    //         $("#Cash").val(order.cash);
-    //         $("#Discount").val(order.discount);
-    //         $("#Balance").val(order.balance);
-    //
-    //     } else {
-    //         $("#txtOrderID").focus();
-    //     }
-    //
-    // }
+
 });
 
 function searchOrder(orderID) {
