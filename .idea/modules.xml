@@ -6,7 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/Back_End_Layered/Back_End_Layered.iml" filepath="$PROJECT_DIR$/Back_End_Layered/Back_End_Layered.iml" />
       <module fileurl="file://$PROJECT_DIR$/Front_End/Front_End.iml" filepath="$PROJECT_DIR$/Front_End/Front_End.iml" />
       <module fileurl="file://$PROJECT_DIR$/Front_End_SPA/Front_End_SPA.iml" filepath="$PROJECT_DIR$/Front_End_SPA/Front_End_SPA.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Back_End_Layered/Spa_Back_End.iml" filepath="$PROJECT_DIR$/Back_End_Layered/Spa_Back_End.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SPA_Back_End_Layered/SPA_Back_End_Layered.iml" filepath="$PROJECT_DIR$/SPA_Back_End_Layered/SPA_Back_End_Layered.iml" />
     </modules>
   </component>
 </project>
