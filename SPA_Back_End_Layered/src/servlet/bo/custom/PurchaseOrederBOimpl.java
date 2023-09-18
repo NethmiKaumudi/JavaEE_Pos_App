@@ -1,9 +1,10 @@
 package servlet.bo.custom;
 
-import lk.ijse.pos.servlet.bo.PurchaseOrderBO;
-import lk.ijse.pos.servlet.dao.custom.PurchaseOrderDAOimpl;
-import lk.ijse.pos.servlet.dto.OrderDTO;
-import lk.ijse.pos.servlet.entity.Order;
+
+import servlet.bo.PurchaseOrderBO;
+import servlet.dao.custom.PurchaseOrderDAOimpl;
+import servlet.dto.OrderDTO;
+import servlet.entity.Order;
 
 public class PurchaseOrederBOimpl implements PurchaseOrderBO {
     //    public List<CustomerDTO> getAllCustomers() {
@@ -39,7 +40,7 @@ public class PurchaseOrederBOimpl implements PurchaseOrderBO {
         order.setoId(order.getoId());
         order.setDate(order.getDate());
         order.setId(order.getId());
-         purchaseOrderDAOimpl.addOrder(order);
+        purchaseOrderDAOimpl.addOrder(order);
     }
 
 }

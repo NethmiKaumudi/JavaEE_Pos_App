@@ -1,6 +1,7 @@
 package servlet.dao;
 
-import lk.ijse.pos.servlet.entity.Item;
+
+import servlet.entity.Item;
 
 public interface ItemDAO extends CrudDAO<Item>{
 

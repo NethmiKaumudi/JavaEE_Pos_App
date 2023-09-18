@@ -1,8 +1,6 @@
 package servlet.entity;
 
-import javax.persistence.Entity;
 
-@Entity
 public class Item {
     private String code;
     private String itemName;

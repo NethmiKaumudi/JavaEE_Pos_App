@@ -1,9 +1,9 @@
 package servlet.entity;
 
 
-import javax.persistence.Entity;
-
-@Entity
+//import javax.persistence.Entity;
+//
+//@Entity
 public class Order {
     private String oId;
     private String date;

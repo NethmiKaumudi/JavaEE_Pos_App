@@ -1,16 +1,18 @@
 package servlet.bo;
 
-import lk.ijse.pos.servlet.dto.CustomerDTO;
+import servlet.dto.CustomerDTO;
 
-import java.util.List;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public interface CustomerBO extends SuperBO {
-    public List<CustomerDTO> getAllCustomers();
+    public ArrayList<CustomerDTO> getAllCustomers(Connection connection) throws SQLException;
 
-    public void addCustomers(CustomerDTO dto) ;
+    public boolean addCustomers(CustomerDTO dto, Connection connection) throws SQLException;
 
-    public boolean updateCustomer(CustomerDTO dto) ;
+    public boolean updateCustomer(CustomerDTO dto,Connection connection) throws SQLException;
 
-    public boolean deleteCustomer(String id);
+    public boolean deleteCustomer(String id,Connection connection) throws SQLException;
 
 }

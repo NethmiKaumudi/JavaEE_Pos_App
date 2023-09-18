@@ -1,8 +1,7 @@
 package servlet.entity;
 
-import javax.persistence.Entity;
 
-@Entity
+
 public class Customer {
     private String id;
     private String name;

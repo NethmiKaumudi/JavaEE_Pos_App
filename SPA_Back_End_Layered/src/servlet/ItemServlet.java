@@ -1,11 +1,12 @@
 package servlet;
 
-import lk.ijse.pos.servlet.bo.BOFactory;
-import lk.ijse.pos.servlet.bo.ItemBO;
-import lk.ijse.pos.servlet.dto.ItemDTO;
-import lk.ijse.pos.servlet.util.ResponseUtil;
 import org.apache.commons.dbcp2.BasicDataSource;
+import servlet.bo.BOFactory;
+import servlet.bo.ItemBO;
+import servlet.dto.ItemDTO;
+import servlet.util.ResponseUtil;
 
+import javax.json.*;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 
 
 @WebServlet(urlPatterns = {"/item"})
@@ -49,7 +50,7 @@ public class ItemServlet extends HttpServlet {
 //            }
 
             //create the response Object
-            List<ItemDTO> items = itemBOimpl.getAllItems();
+            ArrayList<ItemDTO> items = itemBOimpl.getAllItems(connection);
             JsonObjectBuilder builder = Json.createObjectBuilder();
             for (ItemDTO dto : items) {
                 builder.add("code", dto.getCode());
@@ -73,11 +74,7 @@ public class ItemServlet extends HttpServlet {
         Double unitPrice = Double.valueOf(req.getParameter("unitPrice"));
 
         try (Connection connection = pool.getConnection();) {
-            itemDTO.setCode(code);
-            itemDTO.setItemName(description);
-            itemDTO.setQty(itemQty);
-            itemDTO.setPrice(unitPrice);
-            itemBOimpl.addItem(itemDTO);
+            itemBOimpl.addItem(new ItemDTO(code, description, itemQty, unitPrice), connection);
             resp.getWriter().print(ResponseUtil.genJson("Success", "Successfully Added.!"));
 
         } catch (SQLException e) {
@@ -103,12 +100,8 @@ public class ItemServlet extends HttpServlet {
         Double unitPrice = Double.valueOf(jsonObject.getString("unitPrice"));
 
         try (Connection connection = pool.getConnection();) {
-            itemDTO.setCode(code);
-            itemDTO.setItemName(description);
-            itemDTO.setQty(itemQty);
-            itemDTO.setPrice(unitPrice);
 
-            boolean isUpdated = itemBOimpl.updateItem(itemDTO);
+            boolean isUpdated = itemBOimpl.updateItem(new ItemDTO(code, description, itemQty, unitPrice), connection);
 
             if (isUpdated) {
                 resp.getWriter().print(ResponseUtil.genJson("Success", "Item Updated..!"));
@@ -134,7 +127,7 @@ public class ItemServlet extends HttpServlet {
 
 //            PreparedStatement pstm = connection.prepareStatement("delete from item where code=?");
 //            pstm.setObject(1, code);
-            boolean deleteItem = itemBOimpl.deleteItem(code);
+            boolean deleteItem = itemBOimpl.deleteItem(code, connection);
 
             if (deleteItem) {
                 resp.getWriter().print(ResponseUtil.genJson("Success", "Item Deleted..!"));

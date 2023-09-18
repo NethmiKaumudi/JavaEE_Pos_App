@@ -1,57 +1,44 @@
 package servlet.bo.custom;
 
-import lk.ijse.pos.servlet.bo.ItemBO;
-import lk.ijse.pos.servlet.dao.custom.ItemDAOimpl;
-import lk.ijse.pos.servlet.dto.ItemDTO;
-import lk.ijse.pos.servlet.entity.Item;
+import servlet.bo.ItemBO;
+import servlet.dao.custom.ItemDAOimpl;
+import servlet.dto.ItemDTO;
+import servlet.entity.Item;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ItemBOimpl implements ItemBO {
     private ItemDAOimpl itemDAOimpl;
     private Item item;
 
-    public List<ItemDTO> getAllItems() {
-        List<Item> allitems = itemDAOimpl.getAll();
-        return allitems.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public ArrayList<ItemDTO> getAllItems(Connection connection) throws SQLException {
+
+        ArrayList<ItemDTO> allItems= new ArrayList<>();
+
+        ArrayList<Item> allEntity = itemDAOimpl.getAll(connection);
+        for (Item i : allEntity) {
+            allItems.add(new ItemDTO(i.getCode(),i.getItemName(),i.getQty(),i.getPrice()));
+        }
+        return allItems;
+    }
+
+    @Override
+    public boolean addItem(ItemDTO dto, Connection connection) throws SQLException {
+        return itemDAOimpl.add(new Item(dto.getCode(),dto.getItemName(),dto.getQty(),dto.getPrice()),connection);
+    }
+
+    @Override
+    public boolean updateItem(ItemDTO dto, Connection connection) throws SQLException {
+        return itemDAOimpl.update(new Item(dto.getCode(),dto.getItemName(),dto.getQty(),dto.getPrice()),connection);
 
     }
 
-    public void addItem(ItemDTO dto) {
-        item = new Item();
-        item.setCode(dto.getCode());
-        item.setItemName(dto.getItemName());
-        item.setQty(dto.getQty());
-        item.setPrice(dto.getPrice());
-        itemDAOimpl.add(item);
-
+    @Override
+    public boolean deleteItem(String code, Connection connection) throws SQLException {
+        return itemDAOimpl.delete(code,connection);
     }
 
-    public boolean updateItem(ItemDTO dto) {
-        item = new Item();
-        item.setCode(dto.getCode());
-        item.setItemName(dto.getItemName());
-        item.setQty(dto.getQty());
-        item.setPrice(dto.getPrice());
-        return itemDAOimpl.update(item);
-
-    }
-
-    public boolean deleteItem(String code) {
-        return itemDAOimpl.delete(code);
-    }
-
-    private ItemDTO convertToDTO(Item item) {
-        ItemDTO itemDTO = new ItemDTO();
-        itemDTO.setCode(item.getCode());
-        itemDTO.setItemName(item.getItemName());
-        itemDTO.setQty(item.getQty());
-        itemDTO.setPrice(item.getPrice());
-        return itemDTO;
-
-    }
 
 }

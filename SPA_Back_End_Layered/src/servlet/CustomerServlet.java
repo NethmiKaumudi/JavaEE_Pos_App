@@ -1,12 +1,13 @@
 package servlet;
 
 
-import lk.ijse.pos.servlet.bo.BOFactory;
-import lk.ijse.pos.servlet.bo.CustomerBO;
-import lk.ijse.pos.servlet.dto.CustomerDTO;
-import lk.ijse.pos.servlet.util.ResponseUtil;
 import org.apache.commons.dbcp2.BasicDataSource;
+import servlet.bo.BOFactory;
+import servlet.bo.CustomerBO;
+import servlet.dto.CustomerDTO;
+import servlet.util.ResponseUtil;
 
+import javax.json.*;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,8 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
-
+import java.util.ArrayList;
 
 @WebServlet(urlPatterns = {"/customer"})
 public class CustomerServlet extends HttpServlet {
@@ -45,7 +45,7 @@ public class CustomerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try (Connection connection = pool.getConnection();) {
-            List<CustomerDTO> customers = customerBOimpl.getAllCustomers();
+            ArrayList<CustomerDTO> customers = customerBOimpl.getAllCustomers(connection);
             JsonArrayBuilder allCustomers = Json.createArrayBuilder();
             for (CustomerDTO dto : customers) {
                 JsonObjectBuilder builder = Json.createObjectBuilder();
@@ -53,7 +53,7 @@ public class CustomerServlet extends HttpServlet {
                 builder.add("name", dto.getName());
                 builder.add("address", dto.getAddress());
                 builder.add("salary", dto.getSalary());
-                allCustomers.add(builder);
+                allCustomers.add(builder.build());
             }
             //create the response Object
             resp.getWriter().print(ResponseUtil.genJson("Success", "Loaded", allCustomers.build()));
@@ -71,14 +71,8 @@ public class CustomerServlet extends HttpServlet {
         String cusSalary = req.getParameter("cusSalary");
 
         try (Connection connection = pool.getConnection();) {
-//PreparedStatement pstm = connection.prepareStatement("insert into customer values(?,?,?,?)");
-//            CustomerDTO customerDTO = new CustomerDTO();
-            customerDTO.setId(cusID);
-            customerDTO.setName(cusName);
-            customerDTO.setAddress(cusAddress);
-            customerDTO.setSalary(cusSalary);
 
-            customerBOimpl.addCustomers(customerDTO);
+            customerBOimpl.addCustomers(new CustomerDTO(cusID, cusName, cusAddress, cusSalary), connection);
             resp.getWriter().print(ResponseUtil.genJson("Success", "Successfully Added.!"));
 
         } catch (SQLException e) {
@@ -100,11 +94,8 @@ public class CustomerServlet extends HttpServlet {
 
         try (Connection connection = pool.getConnection();) {
 
-            customerDTO.setId(cusID);
-            customerDTO.setName(cusName);
-            customerDTO.setAddress(cusAddress);
-            customerDTO.setSalary(cusSalary);
-            boolean isUpdated = customerBOimpl.updateCustomer(customerDTO);
+
+            boolean isUpdated = customerBOimpl.updateCustomer(new CustomerDTO(cusID, cusName, cusAddress, cusSalary), connection);
             if (isUpdated) {
                 resp.getWriter().print(ResponseUtil.genJson("Success", "Customer Updated..!"));
             } else {
@@ -123,7 +114,7 @@ public class CustomerServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String cusID = req.getParameter("cusID");
         try (Connection connection = pool.getConnection();) {
-            boolean deleteCustomer = customerBOimpl.deleteCustomer(cusID);
+            boolean deleteCustomer = customerBOimpl.deleteCustomer(cusID,connection);
             if (deleteCustomer) {
                 resp.getWriter().print(ResponseUtil.genJson("Success", "Customer Deleted..!"));
             } else {

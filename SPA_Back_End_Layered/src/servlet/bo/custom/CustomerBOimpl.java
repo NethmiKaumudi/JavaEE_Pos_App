@@ -1,55 +1,43 @@
 package servlet.bo.custom;
 
-import lk.ijse.pos.servlet.bo.CustomerBO;
-import lk.ijse.pos.servlet.dao.custom.CustomerDAOimpl;
-import lk.ijse.pos.servlet.dto.CustomerDTO;
-import lk.ijse.pos.servlet.entity.Customer;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import servlet.bo.CustomerBO;
+import servlet.dao.custom.CustomerDAOimpl;
+import servlet.dto.CustomerDTO;
+import servlet.entity.Customer;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CustomerBOimpl implements CustomerBO {
     private CustomerDAOimpl customerDAOimpl;
     private Customer customer;
 
-    public List<CustomerDTO> getAllCustomers() {
-        List<Customer> entities = customerDAOimpl.getAll();
-        return entities.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
+    public ArrayList<CustomerDTO> getAllCustomers(Connection connection) throws SQLException {
+        ArrayList<CustomerDTO> allCustomers = new ArrayList<>();
 
-
-    public void addCustomers(CustomerDTO dto) {
-        customer = new Customer();
-        customer.setId(dto.getId());
-        customer.setName(dto.getName());
-        customer.setAddress(dto.getAddress());
-        customer.setSalary(dto.getSalary());
-        customerDAOimpl.add(customer);
-
+        ArrayList<Customer> allEntity = customerDAOimpl.getAll(connection);
+        for (Customer c : allEntity) {
+            allCustomers.add(new CustomerDTO(c.getId(), c.getName(), c.getAddress(), c.getSalary()));
+        }
+        return allCustomers;
 
     }
 
-    public boolean updateCustomer(CustomerDTO dto) {
-        customer = new Customer();
-        customer.setId(dto.getId());
-        customer.setName(dto.getName());
-        customer.setAddress(dto.getAddress());
-        customer.setSalary(dto.getSalary());
-        return customerDAOimpl.update(customer);
+
+    public boolean addCustomers(CustomerDTO dto, Connection connection) throws SQLException {
+        return customerDAOimpl.add(new Customer(dto.getId(), dto.getName(), dto.getAddress(), dto.getSalary()), connection);
+
     }
 
-    public boolean deleteCustomer(String id) {
-        return customerDAOimpl.delete(id);
+    public boolean updateCustomer(CustomerDTO dto, Connection connection) throws SQLException {
+        return customerDAOimpl.update(new Customer(dto.getId(), dto.getName(), dto.getAddress(), dto.getSalary()), connection);
     }
 
-    private CustomerDTO convertToDTO(Customer entity) {
-        CustomerDTO dto = new CustomerDTO();
-        dto.setId(entity.getId());
-        dto.setName(entity.getName());
-        dto.setAddress(entity.getAddress());
-        dto.setSalary(entity.getSalary());
-        return dto;
+    public boolean deleteCustomer(String id, Connection connection) throws SQLException {
+        return customerDAOimpl.delete(id, connection);
     }
+
+
 }

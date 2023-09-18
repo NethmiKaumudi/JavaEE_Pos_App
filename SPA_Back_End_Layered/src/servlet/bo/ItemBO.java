@@ -1,16 +1,19 @@
 package servlet.bo;
 
-import lk.ijse.pos.servlet.dto.ItemDTO;
+import servlet.dto.ItemDTO;
 
-import java.util.List;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 
 public interface ItemBO extends SuperBO {
-    public List<ItemDTO> getAllItems();
+    public ArrayList<ItemDTO> getAllItems(Connection connection) throws SQLException;
 
-    public void addItem(ItemDTO dto);
+    public boolean addItem(ItemDTO dto, Connection connection) throws SQLException;
 
-    public boolean updateItem(ItemDTO dto);
+    public boolean updateItem(ItemDTO dto,Connection connection) throws SQLException;
 
-    public boolean deleteItem(String code);
+    public boolean deleteItem(String code,Connection connection) throws SQLException;
 
 }

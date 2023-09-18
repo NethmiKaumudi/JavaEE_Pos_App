@@ -1,7 +1,8 @@
 package servlet.dao;
 
-import lk.ijse.pos.servlet.dao.custom.CustomerDAOimpl;
-import lk.ijse.pos.servlet.dao.custom.ItemDAOimpl;
+
+import servlet.dao.custom.CustomerDAOimpl;
+import servlet.dao.custom.ItemDAOimpl;
 
 public class DAOFactory {
     private static DAOFactory daoFactory;

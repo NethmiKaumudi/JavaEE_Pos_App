@@ -1,10 +1,12 @@
 package servlet;
 
-import lk.ijse.pos.servlet.bo.custom.PurchaseOrederBOimpl;
-import lk.ijse.pos.servlet.dto.OrderDTO;
-import lk.ijse.pos.servlet.util.ResponseUtil;
-import org.apache.commons.dbcp2.BasicDataSource;
 
+import org.apache.commons.dbcp2.BasicDataSource;
+import servlet.bo.custom.PurchaseOrederBOimpl;
+import servlet.dto.OrderDTO;
+import servlet.util.ResponseUtil;
+
+import javax.json.*;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,7 +36,7 @@ public class PurchaseOrderServlet extends HttpServlet {
             //Initializing connection
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "1234");
-            PreparedStatement pstm = connection.prepareStatement("select Orders.oid,Orders.date,Orders.customerID,OrderDetails.itemCode,OrderDetails.qty,OrderDetails.unitPrice from Orders inner join OrderDetails on Orders.oid = OrderDetails.oid where Orders.oid=?");
+            PreparedStatement pstm = connection.prepareStatement("select Orders.oid,Orders.date,Orders.cId,OrderDetails.itemCode,OrderDetails.qty,OrderDetails.unitPrice from Orders inner join OrderDetails on Orders.oid = OrderDetails.oid where Orders.oid=?");
             pstm.setObject(1, orderID);
 
             ResultSet rst = pstm.executeQuery();
@@ -110,7 +112,7 @@ public class PurchaseOrderServlet extends HttpServlet {
                 String avQty = odObject.getString("avQty");
                 String unitPrice = odObject.getString("price");
 
-                PreparedStatement pstm2 = connection.prepareStatement("insert into OrderDetails values(?,?,?,?)");
+                PreparedStatement pstm2 = connection.prepareStatement("insert into order_detail values(?,?,?,?)");
                 pstm2.setObject(1, oid);
                 pstm2.setObject(2, itemCode);
                 pstm2.setObject(3, qty);
@@ -124,7 +126,7 @@ public class PurchaseOrderServlet extends HttpServlet {
                 }
 
                 //update the item also
-                PreparedStatement pstm3 = connection.prepareStatement("update Item set qtyOnHand=? where code=?");
+                PreparedStatement pstm3 = connection.prepareStatement("update Item set qty=? where code=?");
                 pstm3.setObject(2, itemCode);
                 int availableQty = Integer.parseInt(avQty);
                 int purchasingQty = Integer.parseInt(qty);

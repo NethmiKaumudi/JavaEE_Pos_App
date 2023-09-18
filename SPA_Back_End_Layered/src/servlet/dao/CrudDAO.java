@@ -1,13 +1,15 @@
 package servlet.dao;
 
-import java.util.List;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public interface CrudDAO<T> extends SuperDAO {
-    public List<T> getAll();
+    public ArrayList<T> getAll(Connection connection) throws SQLException;
 
-    public void add(T entity);
+    public boolean add(T entity, Connection connection) throws SQLException;
 
-    public boolean update(T entity);
+    public boolean update(T entity, Connection connection) throws SQLException;
 
-    public boolean delete(String id);
+    public boolean delete(String id, Connection connection) throws SQLException;
 }

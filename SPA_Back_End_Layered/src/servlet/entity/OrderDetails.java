@@ -1,8 +1,6 @@
 package servlet.entity;
 
-import javax.persistence.Entity;
 
-@Entity
 public class OrderDetails {
     private String oId;
     private String itemName;

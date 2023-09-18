@@ -1,8 +1,8 @@
 package servlet.bo;
 
-import lk.ijse.pos.servlet.bo.custom.CustomerBOimpl;
-import lk.ijse.pos.servlet.bo.custom.ItemBOimpl;
-import lk.ijse.pos.servlet.bo.custom.PurchaseOrederBOimpl;
+import servlet.bo.custom.CustomerBOimpl;
+import servlet.bo.custom.ItemBOimpl;
+import servlet.bo.custom.PurchaseOrederBOimpl;
 
 public class BOFactory {
     private static BOFactory boFactory;

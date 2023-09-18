@@ -1,9 +1,10 @@
 package servlet.filter;
 
 
-import lk.ijse.pos.servlet.util.ResponseUtil;
+import servlet.util.ResponseUtil;
 
 import javax.json.JsonObject;
+import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
